@@ -1,16 +1,19 @@
 const myLibrary = [];
+// const newONe = new Book("me", "mine", "many", "meh");
+// myLibrary.push(newONe);
 
 function Book(title, author, pages, read) {
-    this.title = title
-    this.author = author
-    this.pages = pages
-    this.read = read
+    this.Title = title
+    this.Author = author
+    this.Pages = pages
+    this.Read = read
     this.info = function() {
         return title + " by " + author + ", " + pages + " pages, " + read;
     }
 }
 
 function openNewBookForm() {
+    
     const newBookButton = document.getElementById('newbook');
     newBookButton.addEventListener('click', function() {
         const newBookForm = document.createElement('form');
@@ -18,41 +21,20 @@ function openNewBookForm() {
             "display: flex; flex-direction: column; flex-basis: 50px; margin: 10px" ;
         document.body.appendChild(newBookForm);
 
-        const newTitle = document.createElement('input');
-        newTitle.setAttribute("id", "title");
-        newTitle.style.cssText = 'width: 300px;'
-        const titleLabel = document.createElement('label');
-        titleLabel.style.cssText = "width: 100px";
-        titleLabel.innerHTML = "Title";
-        newBookForm.appendChild(titleLabel);
-        newBookForm.appendChild(newTitle);
-
-        const newAuthor = document.createElement('input');
-        newAuthor.setAttribute("id", "author");
-        newAuthor.style.cssText = 'width: 300px;'
-        const authorLabel = document.createElement('label');
-        authorLabel.style.cssText = "width: 100px";
-        authorLabel.innerHTML = "Author";
-        newBookForm.appendChild(authorLabel);
-        newBookForm.appendChild(newAuthor);
-
-        const newPages = document.createElement('input');
-        newPages.setAttribute("id", "pages");
-        newPages.style.cssText = 'width: 300px;'
-        const pagesLabel = document.createElement('label');
-        pagesLabel.style.cssText = "width: 100px";
-        pagesLabel.innerHTML = "Pages";
-        newBookForm.appendChild(pagesLabel);
-        newBookForm.appendChild(newPages);
-
-        const newRead = document.createElement('input');
-        newRead.setAttribute("id", "read");
-        newRead.style.cssText = 'width: 300px;'
-        const readLabel = document.createElement('label');
-        readLabel.style.cssText = "width: 100px";
-        readLabel.innerHTML = "Read";
-        newBookForm.appendChild(readLabel);
-        newBookForm.appendChild(newRead);
+        let bookExample = new Book();
+        for (key in bookExample) {
+            if (key != 'info') {
+                const newField = document.createElement('input');
+                newField.setAttribute("id", key);
+                newField.style.cssText = 'width: 300px;'
+                const newLabel = document.createElement('label');
+                newLabel.style.cssText = "width: 100px";
+                newLabel.innerHTML = key;
+                newBookForm.appendChild(newLabel);
+                newBookForm.appendChild(newField);
+            }
+            
+        }
 
         const submitButton = document.createElement('button');
         submitButton.setAttribute("id", "submit-new-book");
@@ -111,21 +93,13 @@ function showcaseLibrary() {
         const newRow = document.createElement('tr');
         currentTable.append(newRow)
 
-        const newTitle = document.createElement('td');
-        newTitle.innerHTML = myLibrary[i].title;
-        newRow.append(newTitle);
-
-        const newAuthor = document.createElement('td');
-        newAuthor.innerHTML = myLibrary[i].author;
-        newRow.append(newAuthor);
-
-        const newPages = document.createElement('td');
-        newPages.innerHTML = myLibrary[i].pages;
-        newRow.append(newPages);
-
-        const newRead = document.createElement('td');
-        newRead.innerHTML = myLibrary[i].read;
-        newRow.append(newRead);
+        for (const key in myLibrary[i]) {
+            if (key != 'info') {
+                const newCell = document.createElement('td');
+                newCell.innerHTML = myLibrary[i]    [key];
+                newRow.append(newCell);
+            }
+        }
     }
 }
 
