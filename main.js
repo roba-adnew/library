@@ -1,5 +1,5 @@
 const myLibrary = [];
-// const newONe = new Book("me", "mine", "many", "meh");
+// const newONe = new Book('me', 'mine', 'many', 'meh');
 // myLibrary.push(newONe);
 
 function Book(title, author, pages, read) {
@@ -8,54 +8,66 @@ function Book(title, author, pages, read) {
     this.Pages = pages
     this.Read = read
     this.info = function() {
-        return title + " by " + author + ", " + pages + " pages, " + read;
+        return title + ' by ' + author + ', ' + pages + ' pages, ' + read;
     }
 }
 
-function openNewBookForm() {
-    
+function addNewBookForm() {
     const newBookButton = document.getElementById('newbook');
+    
     newBookButton.addEventListener('click', function() {
-        const newBookForm = document.createElement('form');
-        newBookForm.style.cssText = 
-            "display: flex; flex-direction: column; flex-basis: 50px; margin: 10px" ;
-        document.body.appendChild(newBookForm);
+        function createForm() {
+            const newBookForm = document.createElement('form');
+            newBookForm.setAttribute('id','form');
+            newBookForm.style.cssText = 
+            'display: flex; flex-direction: column; flex-basis: 50px; margin: 10px' ;
+            document.body.appendChild(newBookForm);
 
-        let bookExample = new Book();
-        for (key in bookExample) {
-            if (key != 'info') {
-                const newField = document.createElement('input');
-                newField.setAttribute("id", key);
-                newField.style.cssText = 'width: 300px;'
-                const newLabel = document.createElement('label');
-                newLabel.style.cssText = "width: 100px";
-                newLabel.innerHTML = key;
-                newBookForm.appendChild(newLabel);
-                newBookForm.appendChild(newField);
-            }
-            
+            let bookExample = new Book();
+            for (key in bookExample) {
+                if (key != 'info') {
+                    const newLabel = document.createElement('label');
+                    newLabel.style.cssText = 'width: 100px';
+                    newLabel.innerHTML = key;
+                    newBookForm.appendChild(newLabel);
+                    
+                    const newField = document.createElement('input');
+                    newField.setAttribute('id', key);
+                    newField.style.cssText = 'width: 300px;'
+                    newBookForm.appendChild(newField);
+                } 
+            } 
+
+            const submitButton = document.createElement('button');
+            submitButton.setAttribute('id', 'submit-newbook');
+            submitButton.style.cssText = 'width: 300px; margin: 5px'
+            submitButton.innerHTML = 'Add this book';
+            newBookForm.appendChild(submitButton);
+            return
         }
+        createForm();
 
-        const submitButton = document.createElement('button');
-        submitButton.setAttribute("id", "submit-new-book");
-        submitButton.style.cssText = 'width: 300px; margin: 5px'
-        submitButton.innerHTML = "Add this book";
-        newBookForm.appendChild(submitButton);
+        function submitBook() {
+            newBookForm = document.getElementById('form');
+            submitButton = document.getElementById('submit-newbook');
+            submitButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                const newBook = new Book(
+                    newBookForm.Title.value, 
+                    newBookForm.Author.value,
+                    newBookForm .Pages.value, 
+                    newBookForm.Read.value
+                )
+                myLibrary.push(newBook);
+                newBookForm.replaceChildren();
+
+                // createNewTable();
+                clearLibraryTable();
+                showCaseLibrary();
+            })
+        }
+        submitBook();
     })
-}
-
-openNewBookForm();
-
-function addBookToLibrary() {
-
-
-    let title = prompt("What is the books title?");
-    let author = prompt("Who wrote the book?");
-    let pages = prompt("How many pages long is the book?");
-    let read = prompt("Have you read the book?");
-
-    let newBook = new Book(title, author, pages, read);
-    myLibrary.push(newBook);
 }
 
 function createNewTable() { 
@@ -64,6 +76,7 @@ function createNewTable() {
     document.body.appendChild(table);
 
     const header = document.createElement('tr');
+    header.setAttribute('id', 'header');
     table.appendChild(header);
 
     const titleHeader = document.createElement('th');
@@ -83,11 +96,14 @@ function createNewTable() {
     header.appendChild(readHeader);
 }
 
-createNewTable();  
-function showcaseLibrary() {
-
+function clearLibraryTable() {
     const currentTable = document.querySelector('table');
     currentTable.replaceChildren();
+};
+
+function showCaseLibrary() {
+
+    const currentTable = document.querySelector('table');
 
     for (let i = 0; i < myLibrary.length; i++) {
         const newRow = document.createElement('tr');
@@ -103,5 +119,6 @@ function showcaseLibrary() {
     }
 }
 
-
-showcaseLibrary();
+createNewTable();
+addNewBookForm();
+showCaseLibrary();
