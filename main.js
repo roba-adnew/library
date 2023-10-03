@@ -28,6 +28,10 @@ function clearNewBookForm() {
 };
 
 function createNewBookForm() {
+
+    const availableForm = document.getElementById('form');
+    if (availableForm) clearNewBookForm();
+
     const newBookButton = document.getElementById('new-book-button');
     const newBookForm = document.createElement('form');
 
@@ -141,7 +145,7 @@ function showCaseLibrary() {
         button.addEventListener('click', function(event) {
 
             const bookToChange = document.querySelector(`td[data-id="${button.dataset.id}"]`);
-            
+
             if (bookToChange.innerHTML == `I've read this`) {
                 bookToChange.innerHTML = `I haven't read this`;
             }
