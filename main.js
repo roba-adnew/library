@@ -1,14 +1,17 @@
 const myLibrary = [];
 
-function Book(title, author, pages, read) {
-    this.Title = title
-    this.Author = author
-    this.Pages = pages
-    this.Read = read
-    this.info = function() {
-        return title + ' by ' + author + ', ' + pages + ' pages, ' + read;
-    }
-};
+class Book {
+    constructor(title, author, pages, read) {
+        this.Title = title
+        this.Author = author
+        this.Pages = pages
+        this.Read = read
+        }
+
+        info() {
+            return title + ' by ' + author + ', ' + pages + ' pages, ' + read;
+        }
+}
 
 function clearLibraryTable() {
     const currentTable = document.querySelector('table');
@@ -36,7 +39,7 @@ function createNewBookForm() {
     const newBookForm = document.createElement('form');
 
     newBookForm.setAttribute('id','form');
-    newBookForm.style.cssText = 
+    newBookForm.style.cssText =
         'display: flex; flex-direction: column; flex-basis: 50px; margin: 10px' ;
     newBookButton.after(newBookForm);
 
